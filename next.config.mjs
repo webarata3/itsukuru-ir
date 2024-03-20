@@ -2,7 +2,6 @@
 
 const nextConfig = {
   output: 'export',
-  basePath: '/graduation-work/pokemon',
   images: {
     unoptimized: true,
   },
