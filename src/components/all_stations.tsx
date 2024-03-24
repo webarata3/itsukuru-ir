@@ -14,6 +14,7 @@ const AllStations = ({ stations, changeStationId }: Props) => {
           .map(station => (
             <li
               className="grid min-w-28 grid-rows-[2.2rem_1rem] border-[1px] border-black"
+              key={station.stationId}
               onClick={() => changeStationId(station.stationId)}
             >
               <span className="place-self-center">{station.stationName}</span>
