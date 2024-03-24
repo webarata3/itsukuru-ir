@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AllStations from './all_stations';
 import StationBoard from './station_board';
 import TrainBoards from './train_boards';
 import { Station, Timetable } from './type';
@@ -35,6 +36,7 @@ const StationTimetable = ({
           }}
         ></button>
       </div>
+      <AllStations stations={stations} changeStationId={changeStationId} />
       <StationBoard stationId={stationId} stations={stations} changeStationId={changeStationId} />
       {time && (
         <TrainBoards
