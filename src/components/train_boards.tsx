@@ -51,7 +51,7 @@ const TrainBoards = ({
     <section className="mx-auto w-96 bg-black p-2 mb-2">
       <h2 className="text-white text-2xl text-center">{to}方面</h2>
       {trains.map(train => (
-        <TrainBoard time={time} trainTime={train} />
+        <TrainBoard time={time} trainTime={train} key={to} />
       ))}
     </section>
   );

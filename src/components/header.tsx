@@ -11,11 +11,10 @@ const Header = () => {
         </svg>
       </button>
       <h1 className="text-xl flex-auto text-center">いつくるJR</h1>
-      <a href="/" className="w-6 h-6 text">
-        <svg className="w-6 h-6 text-white hover:text-sky-s00">
+      {/* <a href="/" className="w-6 h-6 text"> <svg className="w-6 h-6 text-white hover:text-sky-s00">
           <use xlinkHref="image/rotate-right.svg#rotate-right"></use>
         </svg>
-      </a>
+      </a> */}
     </header>
   );
 };

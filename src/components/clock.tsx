@@ -37,7 +37,7 @@ const Clock = ({ date, time, setDate, setTime }: Param): React.ReactElement => {
       });
     }, 100);
     return () => clearTimeout(timerId);
-  }, []);
+  }, [setDate, setTime]);
 
   return (
     <section>
