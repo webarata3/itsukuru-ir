@@ -1,12 +1,14 @@
-import { dateToIsoDate, dateToIsoTime, searchStationName } from '@/components/station_util';
-import TrainBoards from '@/components/train_boards';
+import '@/app/globals.css';
+import Clock from '@/components/clock';
+import Header from '@/components/header';
+import StationTimetable from '@/components/station_timetable';
 import { Station, Timetable } from '@/components/type';
 import { promises as fs } from 'fs';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import type { AppProps } from 'next/app';
 import { Kosugi_Maru } from 'next/font/google';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const kosugiMaru = Kosugi_Maru({
   weight: ['400'],
@@ -39,29 +41,6 @@ const Home = ({
 }: AppProps & InferGetStaticPropsType<typeof getStaticProps>) => {
   const [date, setDate] = useState<string | null>(null);
   const [time, setTime] = useState<string | null>(null);
-  const [stationId, setStationId] = useState<number>(16);
-
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      const now = new Date();
-      setDate(current => {
-        const newDate = dateToIsoDate(now);
-        if (current === newDate) return current;
-        return newDate;
-      });
-      setTime(current => {
-        const newTime = dateToIsoTime(now);
-        if (current === newTime) return current;
-        return newTime;
-      });
-    }, 100);
-    return () => clearTimeout(timerId);
-  }, []);
-
-  const currentPosition = (position: GeolocationPosition) => {
-    const s = getNearStationId(position.coords.latitude, position.coords.longitude, param.stations);
-    setStationId(s);
-  };
 
   return (
     <>
@@ -75,63 +54,22 @@ const Home = ({
         <link rel="apple-touch-icon" href="/icon.png"></link>
         <meta name="theme-color" content="#1296dc" />
       </Head>
-      <main className={`${kosugiMaru.className}`}>
-        <div>
-          <span>{date}</span>
-          <span> </span>
-          <span>{time}</span>
-        </div>
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              navigator.geolocation.getCurrentPosition(currentPosition);
-            }}
-          >
-            現在地
-          </button>
-        </div>
-        <div>{searchStationName(stationId, param.stations)}</div>
-        <div>東</div>
-        {time && (
-          <TrainBoards
-            isHoliday={false}
-            stationId={stationId}
-            stations={param.stations}
+      <div
+        className={`flex flex-col h-[100dvh] pb-iphone max-w-lg w-screen mx-auto box-border ${kosugiMaru.className}`}
+      >
+        <main className="flex flex-col h-full w-full text-zinc-700 bg-white">
+          <Header></Header>
+          <Clock date={date} time={time} setDate={setDate} setTime={setTime} />
+          <StationTimetable
             time={time}
-            timetables={param.eastTimetables}
-          ></TrainBoards>
-        )}
-        <div>西</div>
-        {time && (
-          <TrainBoards
-            isHoliday={false}
-            stationId={stationId}
             stations={param.stations}
-            time={time}
-            timetables={param.westTimetables}
-          ></TrainBoards>
-        )}
-      </main>
+            eastTimetables={param.eastTimetables}
+            westTimetables={param.westTimetables}
+          ></StationTimetable>
+        </main>
+      </div>
     </>
   );
-};
-
-const getNearStationId = (latitude: number, longitude: number, stations: Station[]): number =>
-  stations
-    .filter(s => s.latitude !== null)
-    .map(s => {
-      return {
-        stationId: s.stationId,
-        distance: calcDistance(latitude, longitude, s.latitude!, s.longitude!),
-      };
-    })
-    .sort((a, b) => a.distance - b.distance)[0].stationId;
-
-const calcDistance = (x1: number, y1: number, x2: number, y2: number): number => {
-  const x = (x2 - x1) ** 2;
-  const y = (y2 - y1) ** 2;
-  return Math.sqrt(x + y);
 };
 
 export default Home;

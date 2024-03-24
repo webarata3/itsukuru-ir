@@ -26,10 +26,16 @@ const dateToIsoDate = (date: Date): string =>
 const dateToIsoTime = (date: Date): string =>
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 
-const searchStationName = (stationId: number, stations: Station[]): string => {
+const searchStation = (stationId: number, stations: Station[]): Station | null => {
   const findStations = stations.filter(station => station.stationId === stationId);
-  if (findStations.length !== 1) return '?????';
-  return findStations[0].stationName;
+  if (findStations.length !== 1) return null;
+  return findStations[0];
 };
 
-export { dateToIsoDate, dateToIsoTime, searchStationName, searchTimetable };
+const searchStationName = (stationId: number, stations: Station[]): string => {
+  const result = searchStation(stationId, stations);
+  if (result === null) return '????';
+  return result.stationName;
+};
+
+export { dateToIsoDate, dateToIsoTime, searchStation, searchStationName, searchTimetable };

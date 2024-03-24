@@ -5,6 +5,7 @@ type Station = {
   west: string | null;
   latitude: number | null;
   longitude: number | null;
+  ir: boolean;
 };
 
 type StationTime = {

@@ -8,6 +8,7 @@ type Params = {
   time: string;
   stations: Station[];
   timetables: Timetable[];
+  isEast: boolean;
 };
 
 const TrainBoards = ({
@@ -16,8 +17,13 @@ const TrainBoards = ({
   time,
   stations,
   timetables,
+  isEast,
 }: Params): React.ReactElement => {
   const tables = searchTimetable(timetables, stationId, time);
+
+  const to = stations.filter(station => station.stationId === stationId)[0][
+    isEast ? 'east' : 'west'
+  ];
 
   const trains: TrainTime[] = [];
   if (tables.length >= 1) {
@@ -42,11 +48,12 @@ const TrainBoards = ({
   }
 
   return (
-    <>
+    <section className="mx-auto w-96 bg-black p-2 mb-2">
+      <h2 className="text-white text-2xl text-center">{to}方面</h2>
       {trains.map(train => (
-        <TrainBoard time={time} trainTime={train} key={train.time} />
+        <TrainBoard time={time} trainTime={train} />
       ))}
-    </>
+    </section>
   );
 };
 
