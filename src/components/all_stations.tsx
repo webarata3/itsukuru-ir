@@ -7,7 +7,7 @@ type Props = {
 
 const AllStations = ({ stations, changeStationId }: Props) => {
   return (
-    <section className="overflow-x-scroll mb-2 p-2 bg-header">
+    <section className="overflow-x-scroll overflow-y-hidden mb-2 p-2 bg-header">
       <ul className="flex gap-x-2">
         {stations
           .filter(station => station.ir)
