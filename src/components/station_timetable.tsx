@@ -5,6 +5,7 @@ import TrainBoards from './train_boards';
 import { Station, Timetable } from './type';
 
 type Params = {
+  date: string | null;
   time: string | null;
   stations: Station[];
   eastTimetables: Timetable[];
@@ -12,6 +13,7 @@ type Params = {
 };
 
 const StationTimetable = ({
+  date,
   time,
   stations,
   eastTimetables,
@@ -38,21 +40,21 @@ const StationTimetable = ({
       </div>
       <AllStations stations={stations} changeStationId={changeStationId} />
       <StationBoard stationId={stationId} stations={stations} changeStationId={changeStationId} />
-      {time && (
+      {date && time && (
         <TrainBoards
-          isHoliday={false}
           stationId={stationId}
           stations={stations}
+          date={date}
           time={time}
           timetables={eastTimetables}
           isEast={true}
         ></TrainBoards>
       )}
-      {time && (
+      {date && time && (
         <TrainBoards
-          isHoliday={false}
           stationId={stationId}
           stations={stations}
+          date={date}
           time={time}
           timetables={westTimetables}
           isEast={false}

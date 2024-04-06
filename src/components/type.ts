@@ -13,8 +13,15 @@ type StationTime = {
   time: string;
 };
 
+enum SuspendedType {
+  All = 0,
+  Holiday = 1,
+  HolidayTsubata = 2,
+  Weekday = 3,
+}
+
 type Timetable = {
-  suspendedType: number;
+  suspendedType: SuspendedType;
   stationTimes: StationTime[];
 };
 
@@ -24,3 +31,5 @@ type TrainTime = {
 };
 
 export type { Station, StationTime, Timetable, TrainTime };
+
+export { SuspendedType };

@@ -41,14 +41,15 @@ const Clock = ({ date, time, setDate, setTime }: Param): React.ReactElement => {
 
   return (
     <section>
-      <section className="grid grid-cols-[8rem_1fr_8rem]">
-        <time dateTime={`${date}T${time}:${second}`}>{viewDate(date, day)}</time>
-        <time
-          dateTime={`${date}T${time}:${second}`}
-          className="justify-self-center place-self-center"
-        >
-          {viewTime(time, second)}
-        </time>
+      <section>
+        <div className="text-center mb-2">
+          <time dateTime={`${date}T${time}:${second}`}>{viewDate(date, day)}</time>
+        </div>
+        <div>
+          <time dateTime={`${date}T${time}:${second}`} className="flex justify-center items-center">
+            {viewTime(time, second)}
+          </time>
+        </div>
       </section>
     </section>
   );
@@ -60,16 +61,10 @@ const viewDate = (date: string | null, day: number | null): React.ReactElement =
   return (
     <>
       <div>
-        <span className="text-xl">{parseInt(splitDates[0])}</span>
-        <span className="text-sm mx-1">年</span>
-      </div>
-      <div>
         <span className="text-xl">{parseInt(splitDates[1])}</span>
         <span className="text-sm mx-1">月</span>
         <span className="text-xl">{parseInt(splitDates[2])}</span>
         <span className="text-sm mx-1">日</span>
-      </div>
-      <div>
         <span className="text-main text-2xl">{getYobiLabel(day)}</span>
         <span className="text-sm mx-1">曜日</span>
       </div>
@@ -81,10 +76,10 @@ const viewTime = (time: string | null, second: string | null): React.ReactElemen
   const splitTimes = time.split(':');
   return (
     <>
-      <span className="text-main text-7xl">{splitTimes[0]}</span>
-      <span className="mx-1 text-5xl">:</span>
-      <span className="text-main text-7xl">{splitTimes[1]}</span>
-      <span className="text-2xl ml-2">{second}</span>
+      <span className="text-main text-5xl">{splitTimes[0]}</span>
+      <span className="mx-1 text-3xl">:</span>
+      <span className="text-main text-5xl">{splitTimes[1]}</span>
+      <span className="text-xl ml-2 self-end">{second}</span>
     </>
   );
 };

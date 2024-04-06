@@ -1,7 +1,47 @@
-import { Station, Timetable } from './type';
+import { Station, SuspendedType, Timetable } from './type';
 
-const searchTimetable = (timetables: Timetable[], stationId: number, time: string): Timetable[] =>
+const canOperate = (
+  day: number,
+  suspendedType: SuspendedType,
+  stationId: number,
+  isNationalHoliday: boolean,
+): boolean => {
+  switch (suspendedType) {
+    case SuspendedType.All:
+      return true;
+    case SuspendedType.Holiday:
+      return day >= 1 && day <= 5 && !isNationalHoliday;
+    case SuspendedType.HolidayTsubata:
+      if (day >= 1 && day <= 5 && !isNationalHoliday) return true;
+      // 金沢津幡間のみ運休
+      return stationId < 16 || stationId > 19;
+    case SuspendedType.Weekday:
+      return day === 0 || day === 6 || isNationalHoliday;
+  }
+};
+
+const canOperateTrain = (
+  date: string,
+  suspendedType: SuspendedType,
+  stationId: number,
+  nationalHolidays: string[],
+): boolean => {
+  const day = parseInt(date.split('-')[2]);
+  const isNationalHoliday = nationalHolidays.includes(date);
+  return canOperate(day, suspendedType, stationId, isNationalHoliday);
+};
+
+const searchTimetable = (
+  timetables: Timetable[],
+  stationId: number,
+  time: string,
+  date: string,
+  nationalHolidays: string[],
+): Timetable[] =>
   timetables
+    .filter(timetable =>
+      canOperateTrain(date, timetable.suspendedType, stationId, nationalHolidays),
+    )
     .filter(
       timetable =>
         timetable.stationTimes.filter(
@@ -38,4 +78,11 @@ const searchStationName = (stationId: number, stations: Station[]): string => {
   return result.stationName;
 };
 
-export { dateToIsoDate, dateToIsoTime, searchStation, searchStationName, searchTimetable };
+export {
+  canOperateTrain,
+  dateToIsoDate,
+  dateToIsoTime,
+  searchStation,
+  searchStationName,
+  searchTimetable,
+};

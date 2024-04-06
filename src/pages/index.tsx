@@ -61,6 +61,7 @@ const Home = ({
           <Header></Header>
           <Clock date={date} time={time} setDate={setDate} setTime={setTime} />
           <StationTimetable
+            date={date}
             time={time}
             stations={param.stations}
             eastTimetables={param.eastTimetables}

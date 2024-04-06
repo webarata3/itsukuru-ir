@@ -3,8 +3,8 @@ import TrainBoard from './train_board';
 import { Station, Timetable, TrainTime } from './type';
 
 type Params = {
-  isHoliday: boolean;
   stationId: number;
+  date: string;
   time: string;
   stations: Station[];
   timetables: Timetable[];
@@ -12,14 +12,14 @@ type Params = {
 };
 
 const TrainBoards = ({
-  isHoliday,
   stationId,
+  date,
   time,
   stations,
   timetables,
   isEast,
 }: Params): React.ReactElement => {
-  const tables = searchTimetable(timetables, stationId, time);
+  const tables = searchTimetable(timetables, stationId, time, date, []);
 
   const to = stations.filter(station => station.stationId === stationId)[0][
     isEast ? 'east' : 'west'
@@ -48,7 +48,7 @@ const TrainBoards = ({
   }
 
   return (
-    <section className="mx-auto w-96 bg-black p-2 mb-2">
+    <section className="mx-auto w-[22rem] bg-black p-2 mb-2">
       <h2 className="text-white text-2xl text-center">{to}方面</h2>
       {trains.map((train, index) => (
         <TrainBoard time={time} trainTime={train} key={`${stationId}-${index}`} />
