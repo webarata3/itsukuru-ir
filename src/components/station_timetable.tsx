@@ -30,15 +30,18 @@ const StationTimetable = ({
 
   return (
     <>
-      <div>
+      <AllStations stations={stations} changeStationId={changeStationId} />
+      <div className="text-center">
         <button
           type="button"
           onClick={() => {
             navigator.geolocation.getCurrentPosition(currentPosition);
           }}
-        ></button>
+          className="text-main"
+        >
+          現在地に近い駅に変更
+        </button>
       </div>
-      <AllStations stations={stations} changeStationId={changeStationId} />
       <StationBoard stationId={stationId} stations={stations} changeStationId={changeStationId} />
       {date && time && (
         <TrainBoards
