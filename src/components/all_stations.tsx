@@ -1,3 +1,4 @@
+import React from 'react';
 import { Station } from './type';
 
 type Props = {
@@ -6,22 +7,35 @@ type Props = {
 };
 
 const AllStations = ({ stations, changeStationId }: Props) => {
+  const ref = React.createRef<HTMLAnchorElement>();
+  const scrollToBottomOfList = React.useCallback(() => {
+    ref!.current!.scrollIntoView({
+      behavior: 'instant',
+      inline: 'center',
+    });
+  }, [ref]);
+
+  React.useEffect(() => {
+    scrollToBottomOfList();
+  }, []);
+
   return (
     <section className="overflow-x-scroll overflow-y-hidden mb-2 p-2 bg-header">
-      <ul className="flex gap-x-2">
+      <div className="flex gap-x-2">
         {stations
           .filter(station => station.ir)
           .map(station => (
-            <li
+            <a
               className="grid min-w-28 grid-rows-[2.2rem_1rem] border-[1px] border-black"
               key={station.stationId}
               onClick={() => changeStationId(station.stationId)}
+              ref={station.stationId === 16 ? ref : null}
             >
               <span className="place-self-center">{station.stationName}</span>
               <span className="bg-main"></span>
-            </li>
+            </a>
           ))}
-      </ul>
+      </div>
     </section>
   );
 };

@@ -26,7 +26,7 @@ const canOperateTrain = (
   stationId: number,
   nationalHolidays: string[],
 ): boolean => {
-  const day = parseInt(date.split('-')[2]);
+  const day = isoDateToDate(date).getDay();
   const isNationalHoliday = nationalHolidays.includes(date);
   return canOperate(day, suspendedType, stationId, isNationalHoliday);
 };
@@ -65,6 +65,11 @@ const dateToIsoDate = (date: Date): string =>
 
 const dateToIsoTime = (date: Date): string =>
   `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+const isoDateToDate = (date: string): Date => {
+  const splitDate = date.split('-');
+  return new Date(parseInt(splitDate[0]), parseInt(splitDate[1]) - 1, parseInt(splitDate[2]));
+};
 
 const searchStation = (stationId: number, stations: Station[]): Station | null => {
   const findStations = stations.filter(station => station.stationId === stationId);

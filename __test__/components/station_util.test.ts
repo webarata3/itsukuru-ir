@@ -29,7 +29,7 @@ test('canOperateTrain 休日運休 日', () => {
 });
 
 test('canOperateTrain 休日運休 祝日', () => {
-  const result = canOperateTrain('2024-01-8', SuspendedType.Holiday, 1, nationalHolidays);
+  const result = canOperateTrain('2024-01-08', SuspendedType.Holiday, 1, nationalHolidays);
 
   expect(result).toBe(false);
 });
@@ -72,6 +72,30 @@ test('canOperateTrain 金沢津幡休日運休 休日 津幡', () => {
 
 test('canOperateTrain 金沢津幡休日運休 祝日 津幡', () => {
   const result = canOperateTrain('2024-01-08', SuspendedType.HolidayTsubata, 19, nationalHolidays);
+
+  expect(result).toBe(false);
+});
+
+test('canOperateTrain 金沢 休日運転 土曜日', () => {
+  const result = canOperateTrain('2024-01-06', SuspendedType.Weekday, 19, nationalHolidays);
+
+  expect(result).toBe(true);
+});
+
+test('canOperateTrain 金沢 休日運転 土曜日', () => {
+  const result = canOperateTrain('2024-01-06', SuspendedType.Weekday, 19, nationalHolidays);
+
+  expect(result).toBe(true);
+});
+
+test('canOperateTrain 金沢 休日運転 日曜日', () => {
+  const result = canOperateTrain('2024-01-07', SuspendedType.Weekday, 19, nationalHolidays);
+
+  expect(result).toBe(true);
+});
+
+test('canOperateTrain 金沢 休日運転 平日', () => {
+  const result = canOperateTrain('2024-01-09', SuspendedType.Weekday, 19, nationalHolidays);
 
   expect(result).toBe(false);
 });
